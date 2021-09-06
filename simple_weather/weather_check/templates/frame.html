@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+          background: linear-gradient(to left,#f0f000,#00f0f0);
+          margin:5px;
+          text-align:center;
+          width:99%;
+          height:100%;
+        }
+        button, table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          margin:5px;
+        }
+        th, td {
+          padding: 5px;
+          text-align: center;
+        }
+        .form-control {
+            width:40%;
+            border: 1px solid #0f0f0f;
+            border-radius: .2rem;
+            margin:5px;
+            padding:5px;
+            }
+
+    </style>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <h1>Weather checker</h1>
+
+    {% block body %} {% endblock %}
+    {% load static %}
+
+    <div style="opacity:0.5;position:absolute;left:70%;z-index: -1">
+        <img src="{% static 'pig.png' %}">
+
+</body>
+
+</html>

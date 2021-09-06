@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  django:
+    env_file:
+      - keys.env
+    build: .
+    command:
+      - simple_weather/manage.py runserver
+#    volumes:
+#      - .:/code
+    ports:
+      - "8000:8000"

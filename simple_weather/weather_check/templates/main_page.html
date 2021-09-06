@@ -1,0 +1,19 @@
+{% extends "frame.html" %}
+{% block title %}
+Main page
+{% endblock %}
+{% block body %}
+<table style="opacity:0.8;position:absolute;left:30%;width:40%;background-color:#40B3DF">
+    <tbody>
+    <tr>
+        <form>
+            {% csrf_token %}
+            {{ city_name }}
+            {{ start_date }}
+            {{ end_date }}
+            <input type="submit" formaction="{% url 'weather_check:city' %}" formmethod="post" value="Check!">
+        </form>
+    </tr>
+    </tbody>
+</table>
+{% endblock %}
