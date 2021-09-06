@@ -1,10 +1,8 @@
 import math
 import os
 from collections import defaultdict
-
 import requests
 from django.db.models import Max, Min, Avg, Count
-
 from .models import City
 
 
