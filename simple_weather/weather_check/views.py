@@ -21,7 +21,9 @@ def city(request):
         city_name_form = ChooseCity(request.POST)
         start_date_form = ChooseStartDate(request.POST)
         end_date_form = ChooseEndDate(request.POST)
-        if city_name_form.is_valid() and start_date_form.is_valid() and end_date_form.is_valid():
+        if city_name_form.is_valid() and\
+                start_date_form.is_valid() and\
+                end_date_form.is_valid():
             info_from_site = get_info_from_site(request.POST)
             upload_data_to_base(info_from_site.json())
             context = calculate_data_to_show(request)

@@ -65,22 +65,49 @@ def calculate_data_to_show(request):
     context["city_name"] = city_name
     context["start_date"] = data_to_show.first().date
     context["end_date"] = data_to_show.last().date
-    context["min_temp_per_period"] = data_to_show.aggregate(Min("min_temp_of_day"))["min_temp_of_day__min"]
-    context["avg_temp_per_period"] = round(data_to_show.aggregate(Avg("avg_temp_of_day"))["avg_temp_of_day__avg"])
-    context["max_temp_per_period"] = data_to_show.aggregate(Max("max_temp_of_day"))["max_temp_of_day__max"]
+
+    context["min_temp_per_period"] = data_to_show.aggregate(
+        Min("min_temp_of_day"))["min_temp_of_day__min"]
+
+    context["avg_temp_per_period"] = round(data_to_show.aggregate(
+        Avg("avg_temp_of_day"))["avg_temp_of_day__avg"])
+
+    context["max_temp_per_period"] = data_to_show.aggregate(
+        Max("max_temp_of_day"))["max_temp_of_day__max"]
 
     if int(start_date[:4]) < int(end_date[:4]) + 2:
-        context["years_avg_min"] = data_to_show.values("date_year").annotate(Avg("min_temp_of_day")).order_by("date_year")
-        context["years_avg_max"] = data_to_show.values("date_year").annotate(Avg("max_temp_of_day")).order_by("date_year")
+        context["years_avg_min"] = data_to_show.values("date_year").annotate(
+            Avg("min_temp_of_day")
+        ).order_by("date_year")
+        context["years_avg_max"] = data_to_show.values("date_year").annotate(
+            Avg("max_temp_of_day")
+        ).order_by("date_year")
 
-    days_without_precipitation = data_to_show.annotate(Count("precipMM")).filter(precipMM=0).count()
-    context["percent_days_of_precipitation"] = \
-        round(days_without_precipitation / data_to_show.annotate(days=Count("precipMM")).count() * 100)
-    context["most_common_precipitations"] = data_to_show.values("most_common_weather").annotate(
+    days_without_precipitation = data_to_show.annotate(
+        Count("precipMM")).filter(precipMM=0).count()
+
+    context["percent_days_of_precipitation"] = round(
+        days_without_precipitation / data_to_show.annotate(
+            days=Count("precipMM")
+        )
+        .count() * 100
+    )
+
+    context["most_common_precipitations"] = data_to_show.values(
+        "most_common_weather"
+    ).annotate(
         count=Count("most_common_weather")).order_by("-count")[:2]
-    context["avg_wind_speed"] = round(data_to_show.aggregate(Avg("wind_avg_velocity"))["wind_avg_velocity__avg"])
+
+    context["avg_wind_speed"] = round(
+        data_to_show.aggregate(
+            Avg("wind_avg_velocity"
+                )
+        )["wind_avg_velocity__avg"])
     wind_directions = [day.wind_avg_direction for day in data_to_show]
-    context["avg_wind_direction"] = round(calculate_average_wind_direction(wind_directions))
+
+    context["avg_wind_direction"] = round(
+        calculate_average_wind_direction(wind_directions)
+    )
 
     return context
 
